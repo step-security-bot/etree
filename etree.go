@@ -109,8 +109,9 @@ type WriteSettings struct {
 	CanonicalAttrVal bool
 
 	// AttrSingleQuote causes attributes to use single quotes (attr='example')
-	// instead of double quotes (attr = "example") when set to true. Default:
-	// false.
+	// instead of double quotes (attr = "example") when set to true. When
+	// AttrSingleQuote is true, CanonicalAttrVal is forced to be false.
+	// Default: false.
 	AttrSingleQuote bool
 
 	// UseCRLF causes the document's Indent* methods to use a carriage return
@@ -1465,7 +1466,7 @@ func (a *Attr) WriteTo(w Writer, s *WriteSettings) {
 		w.WriteString(`="`)
 	}
 	var m escapeMode
-	if s.CanonicalAttrVal {
+	if s.CanonicalAttrVal && !s.AttrSingleQuote {
 		m = escapeCanonicalAttr
 	} else {
 		m = escapeNormal
