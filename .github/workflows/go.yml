@@ -13,6 +13,11 @@ jobs:
         go-version: [ '1.21', '1.22.x' ]
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v4
 
       - name: Setup Go ${{ matrix.go-version }}
